@@ -16,6 +16,7 @@ async function coletarDadosClimaticos(): Promise<void> {
         // Consultar dados climáticos
         const dadosClimaticos: DadosClimaticos = await openWeatherMapService.consultarDadosClimaticos(localizacao);
 
+
         // Salvar dados climáticos
         await repositorioDadosClimaticos.salvarDados(dadosClimaticos);
 
