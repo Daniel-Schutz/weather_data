@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import DadosClimaticos from '../entidades/DadosClimaticos';
 import Localizacao from '../objetos_valor/Localizacao';
 
@@ -14,12 +13,12 @@ class OpenWeatherMapService {
             }
 
             const data = await response.json();
-
             const temperatura = data.main.temp;
             const umidade = data.main.humidity;
             const velocidadeDoVento = data.wind.speed;
 
             return new DadosClimaticos(temperatura, umidade, velocidadeDoVento, localizacao);
+            return data;
         } catch (error) {
             throw new Error(`Erro ao consultar a API do OpenWeatherMap: ${error.message}`);
         }
