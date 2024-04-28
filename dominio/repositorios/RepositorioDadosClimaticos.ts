@@ -1,9 +1,10 @@
+// RepositorioDadosClimaticos.ts
 import DadosClimaticos from '../entidades/DadosClimaticos';
 import DadosClimaticosModel from '../../infraestrutura/banco_dados/DadosClimaticosModel';
 import Localizacao from '../objetos_valor/Localizacao';
 
 class RepositorioDadosClimaticos {
-  async salvarDados(dados: DadosClimaticos): Promise<void> {
+  async salvarDados(dados: DadosClimaticos): Promise<boolean> {
     try {
       await DadosClimaticosModel.create({
         temperatura: dados.temperatura,
@@ -12,8 +13,11 @@ class RepositorioDadosClimaticos {
         latitude: dados.localizacao.latitude,
         longitude: dados.localizacao.longitude,
       });
+      
+      return true; // Retorna true se os dados foram salvos com sucesso
     } catch (error) {
-      throw new Error(`Erro ao salvar os dados climáticos no banco de dados: ${error.message}`);
+      console.error(`Erro ao salvar os dados climáticos no banco de dados: ${error.message}`);
+      return false; // Retorna false se ocorreu um erro ao salvar os dados
     }
   }
 

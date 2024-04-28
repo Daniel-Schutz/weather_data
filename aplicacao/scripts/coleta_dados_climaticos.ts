@@ -1,3 +1,4 @@
+// Importações dos módulos
 import Localizacao from '../../dominio/objetos_valor/Localizacao';
 import OpenWeatherMapService from '../../dominio/servicos/OpenWeatherMapService';
 import RepositorioDadosClimaticos from '../../dominio/repositorios/RepositorioDadosClimaticos';
@@ -6,9 +7,11 @@ import DadosClimaticos from '../../dominio/entidades/DadosClimaticos';
 // Configurações
 const localizacao: Localizacao = new Localizacao(-20.4435, -54.6478); // Exemplo de localização em Mato Grosso do Sul
 
-// Serviços
-const openWeatherMapService = new OpenWeatherMapService();
+// Instanciar o repositório de dados climáticos
 const repositorioDadosClimaticos = new RepositorioDadosClimaticos();
+
+// Instanciar o serviço OpenWeatherMapService, passando o repositório como argumento
+const openWeatherMapService = new OpenWeatherMapService(repositorioDadosClimaticos);
 
 // Coleta de Dados Climáticos
 async function coletarDadosClimaticos(): Promise<void> {
@@ -16,13 +19,9 @@ async function coletarDadosClimaticos(): Promise<void> {
         // Consultar dados climáticos
         const dadosClimaticos: DadosClimaticos = await openWeatherMapService.consultarDadosClimaticos(localizacao);
 
-
-        // Salvar dados climáticos
-        await repositorioDadosClimaticos.salvarDados(dadosClimaticos);
-
-        console.log('Dados climáticos coletados e armazenados com sucesso!');
+        console.log('Dados climáticos coletados com sucesso:', dadosClimaticos);
     } catch (error) {
-        console.error('Erro ao coletar e armazenar os dados climáticos:', error);
+        console.error('Erro ao coletar os dados climáticos:', error);
     }
 }
 
