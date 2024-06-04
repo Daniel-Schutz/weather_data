@@ -1,0 +1,125 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Dados Climáticos",
+        "version": "1.0.0",
+        "description": "API para coletar e listar dados climáticos."
+    },
+    "paths": {
+        "/api/coletar-dados": {
+            "post": {
+                "summary": "Coletar dados de uma determinada localização",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "latitude": {
+                                        "type": "number",
+                                        "example": -23.55052
+                                    },
+                                    "longitude": {
+                                        "type": "number",
+                                        "example": -46.633308
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dados climáticos coletados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosClimaticos"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "500": {
+                        "description": "Erro ao coletar dados climáticos"
+                    }
+                }
+            }
+        },
+        "/api/dados-climaticos": {
+            "get": {
+                "summary": "Listar dados coletados com opção de paginação",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de dados climáticos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DadosClimaticos"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao listar dados climáticos"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DadosClimaticos": {
+                "type": "object",
+                "properties": {
+                    "temperatura": {
+                        "type": "number"
+                    },
+                    "umidade": {
+                        "type": "number"
+                    },
+                    "velocidadeDoVento": {
+                        "type": "number"
+                    },
+                    "localizacao": {
+                        "type": "object",
+                        "properties": {
+                            "latitude": {
+                                "type": "number"
+                            },
+                            "longitude": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
