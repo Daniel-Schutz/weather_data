@@ -27,7 +27,7 @@ Antes de começar, certifique-se de ter o Node.js e o npm instalados em sua máq
 
 1. Clone o repositório:
     ```bash
-    git clone <URL_DO_REPOSITORIO>
+    git clone https://github.com/Daniel-Schutz/weather_data.git
     cd weather_data
     ```
 
