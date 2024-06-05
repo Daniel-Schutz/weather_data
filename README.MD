@@ -102,7 +102,6 @@ Antes de começar, certifique-se de ter o Node.js e o npm instalados em sua máq
           "longitude": "valor"
         }
       },
-      ...
     ]
     ```
 
