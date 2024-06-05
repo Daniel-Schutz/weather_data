@@ -2,8 +2,9 @@ import { Router } from 'express';
 import DadosClimaticosController from './interfaces/controllers/DadosClimaticosController';
 
 const router = Router();
+const dadosClimaticosController = new DadosClimaticosController();
 
-router.post('/coletar-dados', DadosClimaticosController.coletarDados);
-router.get('/dados-climaticos', DadosClimaticosController.listarDados);
+router.post('/coletar-dados', dadosClimaticosController.coletarDados);
+router.get('/listar-dados', dadosClimaticosController.listarDados);
 
 export default router;
