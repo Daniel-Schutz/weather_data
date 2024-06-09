@@ -1,5 +1,9 @@
 # Weather Data Collector
 
+## Alunos
+
+Daniel Schutz e Pedro Nicoletti
+
 ## Descrição
 
 Este projeto é um coletor de dados climáticos que utiliza a API do OpenWeatherMap para buscar dados de temperatura, umidade e velocidade do vento com base em coordenadas de latitude e longitude fornecidas. Os dados coletados são armazenados em um banco de dados e podem ser consultados posteriormente.
