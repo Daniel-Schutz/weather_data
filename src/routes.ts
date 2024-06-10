@@ -10,8 +10,8 @@ router.post('/coletar-dados', dadosClimaticosController.coletarDados);
 router.get('/listar-dados', dadosClimaticosController.listarDados);
 
 // Rotas para notificações
-router.post('/subscribe', NotificationController.cadastrar);
-router.post('/unsubscribe', NotificationController.descadastrar);
-router.get('/subscribers', NotificationController.listarCadastrados);
+router.post('/cadastrar', NotificationController.cadastrar);
+router.post('/descadrastar', NotificationController.descadastrar);
+router.get('/inscritos', NotificationController.listarCadastrados);
 
 export default router;
