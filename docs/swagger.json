@@ -3,7 +3,7 @@
     "info": {
         "title": "API de Dados Climáticos",
         "version": "1.0.0",
-        "description": "API para coletar e listar dados climáticos."
+        "description": "API para coletar e listar dados climáticos, além de gerenciar inscrições para boletins informativos."
     },
     "paths": {
         "/api/coletar-dados": {
@@ -91,6 +91,89 @@
                     }
                 }
             }
+        },
+        "/api/inscricao": {
+            "post": {
+                "summary": "Inscrever-se para receber boletins informativos sobre o tempo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "frequencia": {
+                                        "type": "string",
+                                        "enum": ["semanalmente", "mensalmente", "semestralmente"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inscrição criada com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao inscrever usuário"
+                    }
+                }
+            }
+        },
+        "/api/descadastrar": {
+            "post": {
+                "summary": "Cancelar inscrição dos boletins informativos sobre o tempo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inscrição cancelada com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao cancelar inscrição"
+                    }
+                }
+            }
+        },
+        "/api/inscritos": {
+            "get": {
+                "summary": "Listar todos os inscritos nos boletins informativos",
+                "responses": {
+                    "200": {
+                        "description": "Lista de inscritos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Inscricao"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao listar inscritos"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -117,6 +200,18 @@
                                 "type": "number"
                             }
                         }
+                    }
+                }
+            },
+            "Inscricao": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "frequency": {
+                        "type": "string",
+                        "enum": ["semanalmente", "mensalmente", "semestralmente"]
                     }
                 }
             }
