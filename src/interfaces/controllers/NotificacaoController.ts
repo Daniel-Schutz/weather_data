@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import InscricaoService from '@src/dominio/servicos/InscricaoService';
+import InscricaoService from '../../dominio/servicos/InscricaoService';
 
 class NotificacaoController {
     private inscricaoService: InscricaoService;
