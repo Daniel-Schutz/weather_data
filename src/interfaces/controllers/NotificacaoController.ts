@@ -1,37 +1,47 @@
 import { Request, Response } from 'express';
-import Inscricao from '../../infraestrutura/banco_dados/InscricaoModel'
+import InscricaoService from '@src/dominio/servicos/InscricaoService';
 
 class NotificacaoController {
-    public async cadastrar(req: Request, res: Response): Promise<Response> {
-        const { email, frequency } = req.body;
-
-        try {
-            const inscricao = await Inscricao.create({ email, frequency });
-            return res.status(201).json(inscricao);
-        } catch (error) {
-            return res.status(500).json({ error: 'Erro ao cadastrar usuário!' });
-        }
+    private inscricaoService: InscricaoService;
+  
+    constructor() {
+      this.inscricaoService = new InscricaoService();
     }
 
-    public async descadastrar(req: Request, res: Response): Promise<Response> {
-        const { email } = req.body;
-
+    public cadastrar = async (req: Request, res: Response): Promise<Response> => {
         try {
-            await Inscricao.destroy({ where: { email } });
-            return res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
+          const { email, frequencia } = req.body;
+          if (!email || !frequencia) {
+            return res.status(400).json({ error: 'Email e frequência são obrigatórios' });
+          }
+          const inscricao = await this.inscricaoService.cadastrar(email, frequencia);
+          return res.status(201).json(inscricao);
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao cadastrar usuário!' });
+          return res.status(500).json({ error });
         }
-    }
-
-    public async listarCadastrados(req: Request, res: Response): Promise<Response> {
+      }
+    
+      public descadastrar = async (req: Request, res: Response): Promise<Response> => {
         try {
-            const cadastrados = await Inscricao.findAll();
-            return res.status(200).json(cadastrados);
+          const { email } = req.body;
+          if (!email) {
+            return res.status(400).json({ error: 'Email é obrigatório' });
+          }
+          await this.inscricaoService.descadastrar(email);
+          return res.status(200).json({ message: 'Inscrição cancelada com sucesso' });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro ao listar cadastrados!' });
+          return res.status(500).json({ error });
         }
+      }
+    
+      public listarCadastrados = async (req: Request, res: Response): Promise<Response> => {
+        try {
+          const inscritos = await this.inscricaoService.listarCadastados();
+          return res.status(200).json(inscritos);
+        } catch (error) {
+          return res.status(500).json({ error });
+        }
+      }
     }
-}
-
-export default new NotificacaoController();
+    
+    export default NotificacaoController;
