@@ -209,7 +209,7 @@
                     "email": {
                         "type": "string"
                     },
-                    "frequency": {
+                    "frequencia": {
                         "type": "string",
                         "enum": ["semanalmente", "mensalmente", "semestralmente"]
                     }
