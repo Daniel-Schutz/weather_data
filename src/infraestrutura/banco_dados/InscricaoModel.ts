@@ -1,13 +1,13 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../banco_dados/conexao_banco';
 
-class Subscription extends Model {
+class Inscricao extends Model {
     public id!: number;
     public email!: string;
-    public frequency!: string;
+    public frequencia!: string;
 }
 
-Subscription.init(
+Inscricao.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -19,16 +19,16 @@ Subscription.init(
             allowNull: false,
             unique: true,
         },
-        frequency: {
+        frequencia: {
             type: DataTypes.STRING,
             allowNull: false,
         },
     },
     {
         sequelize,
-        modelName: 'Subscription',
-        tableName: 'subscriptions',
+        modelName: 'Inscricao',
+        tableName: 'Inscricoes',
     }
 );
 
-export default Subscription;
+export default Inscricao;
