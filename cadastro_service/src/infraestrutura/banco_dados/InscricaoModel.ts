@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../../../../weather_data/src/infraestrutura/banco_dados/conexao_banco';
+import sequelize from '../banco_dados/conexao_banco';
 
 class Inscricao extends Model {
     public id!: number;
