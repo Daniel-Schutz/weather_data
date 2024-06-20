@@ -41,7 +41,7 @@
   "include": [
       "./src/**/*.ts",
       "./test/**/*.ts"
-  ],
+, "../cadastro_service/src/dominio/entidades/Inscricao.ts", "../cadastro_service/src/infraestrutura/banco_dados/InscricaoModel.ts", "../cadastro_service/src/interfaces/controllers/InscricaoController.ts"  ],
   "exclude": [
       "./node_modules/*",
       "dist"
