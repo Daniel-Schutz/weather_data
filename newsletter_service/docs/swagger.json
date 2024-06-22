@@ -3,12 +3,12 @@
     "info": {
         "title": "API de Inscrição",
         "version": "1.0.0",
-        "description": "API para gerenciar inscrições para boletins informativos."
+        "description": "API para gerenciar inscrições e enviar boletins informativos sobre o clima."
     },
     "paths": {
         "/api/inscricao": {
             "post": {
-                "summary": "Inscrever-se para receber boletins informativos sobre o tempo",
+                "summary": "Inscrever-se para receber boletins informativos sobre o clima",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -23,6 +23,10 @@
                                         "type": "string",
                                         "enum": ["semanalmente", "mensalmente", "semestralmente"]
                                     }
+                                },
+                                "example": {
+                                    "email": "usuario@example.com",
+                                    "frequencia": "semanalmente"
                                 }
                             }
                         }
@@ -40,7 +44,7 @@
         },
         "/api/descadastrar": {
             "post": {
-                "summary": "Cancelar inscrição dos boletins informativos sobre o tempo",
+                "summary": "Cancelar inscrição dos boletins informativos sobre o clima",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -51,6 +55,9 @@
                                     "email": {
                                         "type": "string"
                                     }
+                                },
+                                "example": {
+                                    "email": "usuario@example.com"
                                 }
                             }
                         }
@@ -68,7 +75,7 @@
         },
         "/api/inscritos": {
             "get": {
-                "summary": "Listar todos os inscritos nos boletins informativos",
+                "summary": "Listar todos os inscritos nos boletins informativos sobre o clima",
                 "responses": {
                     "200": {
                         "description": "Lista de inscritos",
@@ -85,6 +92,19 @@
                     },
                     "500": {
                         "description": "Erro ao listar inscritos"
+                    }
+                }
+            }
+        },
+        "/api/enviar-boletim-climatico": {
+            "post": {
+                "summary": "Enviar boletim climático para todos os inscritos",
+                "responses": {
+                    "200": {
+                        "description": "Boletins enviados com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao enviar boletins"
                     }
                 }
             }
