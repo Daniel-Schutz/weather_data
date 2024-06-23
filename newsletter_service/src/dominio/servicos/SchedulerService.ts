@@ -1,6 +1,7 @@
 import cron from 'node-cron';
-import EmailService from './EmailService';
-import InscricaoService from './InscricaoService';
+import EmailService from './EmailService'; 
+import InscricaoService from '../servicos/InscricaoService';
+import RepositorioDadosClimaticos from '../../../../weather_service/src/dominio/repositorios/RepositorioDadosClimaticos'; 
 
 class SchedulerService {
     private inscricaoService: InscricaoService;
@@ -8,18 +9,22 @@ class SchedulerService {
 
     constructor() {
         this.inscricaoService = new InscricaoService();
-        this.emailService = new EmailService();
+        const repositorioDadosClimaticos = new RepositorioDadosClimaticos(); 
+        this.emailService = new EmailService(repositorioDadosClimaticos);
     }
 
     public start() {
+       
         cron.schedule('0 9 * * 0', async () => { 
             await this.sendBoletinsSemanais();
         });
 
+       
         cron.schedule('0 9 1 * *', async () => { 
             await this.sendBoletinsMensais();
         });
 
+   
         cron.schedule('0 9 1 1,7 *', async () => {
             await this.sendBoletinsSemestrais();
         });
