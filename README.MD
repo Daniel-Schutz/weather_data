@@ -4,7 +4,7 @@ Este projeto é um exemplo de API Gateway usando Domain-Driven Design (DDD) e Re
 ### Alunos: Daniel Schutz e Pedro Nicoletti
 ## Estrutura do Projeto
 ```plaintext
-your-project/
+weather_data/
 ├── src/
 │   ├── index.js
 │   ├── routes/
