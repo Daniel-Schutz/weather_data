@@ -1,0 +1,240 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Gateway",
+        "version": "1.0.0",
+        "description": "API Gateway para gerenciar chamadas para os serviços de dados climáticos e de inscrição."
+    },
+    "paths": {
+        "/api/coletar-dados": {
+            "post": {
+                "summary": "Coletar dados de uma determinada localização",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "latitude": {
+                                        "type": "number",
+                                        "example": -23.55052
+                                    },
+                                    "longitude": {
+                                        "type": "number",
+                                        "example": -46.633308
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Dados climáticos coletados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosClimaticos"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "500": {
+                        "description": "Erro ao coletar dados climáticos"
+                    }
+                }
+            }
+        },
+        "/api/dados-climaticos": {
+            "get": {
+                "summary": "Listar dados coletados com opção de paginação",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de dados climáticos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DadosClimaticos"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao listar dados climáticos"
+                    }
+                }
+            }
+        },
+        "/api/inscricao": {
+            "post": {
+                "summary": "Inscrever-se para receber boletins informativos sobre o clima",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "frequencia": {
+                                        "type": "string",
+                                        "enum": ["semanalmente", "mensalmente", "semestralmente"]
+                                    }
+                                },
+                                "example": {
+                                    "email": "usuario@example.com",
+                                    "frequencia": "semanalmente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inscrição criada com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao inscrever usuário"
+                    }
+                }
+            }
+        },
+        "/api/descadastrar": {
+            "post": {
+                "summary": "Cancelar inscrição dos boletins informativos sobre o clima",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "usuario@example.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inscrição cancelada com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao cancelar inscrição"
+                    }
+                }
+            }
+        },
+        "/api/inscritos": {
+            "get": {
+                "summary": "Listar todos os inscritos nos boletins informativos sobre o clima",
+                "responses": {
+                    "200": {
+                        "description": "Lista de inscritos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Inscricao"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao listar inscritos"
+                    }
+                }
+            }
+        },
+        "/api/enviar-boletim-climatico": {
+            "post": {
+                "summary": "Enviar boletim climático para todos os inscritos",
+                "responses": {
+                    "200": {
+                        "description": "Boletins enviados com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro ao enviar boletins"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DadosClimaticos": {
+                "type": "object",
+                "properties": {
+                    "temperatura": {
+                        "type": "number"
+                    },
+                    "umidade": {
+                        "type": "number"
+                    },
+                    "velocidadeDoVento": {
+                        "type": "number"
+                    },
+                    "localizacao": {
+                        "type": "object",
+                        "properties": {
+                            "latitude": {
+                                "type": "number"
+                            },
+                            "longitude": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "Inscricao": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "frequencia": {
+                        "type": "string",
+                        "enum": ["semanalmente", "mensalmente", "semestralmente"]
+                    }
+                }
+            }
+        }
+    }
+}
