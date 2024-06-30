@@ -3,7 +3,7 @@
 Este projeto é um exemplo de API Gateway usando Domain-Driven Design (DDD) e React. Ele integra dois serviços: um serviço de dados climáticos e um serviço de newsletter.
 ### Alunos: Daniel Schutz e Pedro Nicoletti
 ## Estrutura do Projeto
-
+```plaintext
 your-project/
 ├── src/
 │   ├── index.js
@@ -14,7 +14,7 @@ your-project/
 │   └── api-gateway-swagger.json
 ├── package.json
 └── package-lock.json
-
+```
 ## Configuração do Ambiente de Desenvolvimento
 
 ### Requisitos
