@@ -5,8 +5,8 @@ const router = Router();
 const inscricaoController = new InscricaoController();
 
 
-router.post('/cadastrar', inscricaoController.cadastrar);
-router.post('/descadrastar', inscricaoController.descadastrar);
+router.post('/inscricao', inscricaoController.cadastrar);
+router.post('/descadastrar', inscricaoController.descadastrar);
 router.get('/inscritos', inscricaoController.listarCadastrados);
 
 export default router;
