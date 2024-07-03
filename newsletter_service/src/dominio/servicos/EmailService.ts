@@ -35,6 +35,7 @@ class EmailService {
                     const weatherData = await this.weatherService.consultarDadosClimaticos(localizacao);
                     const weatherInfo = `Temperatura: ${weatherData.temperatura}°C, Umidade: ${weatherData.umidade}%, Velocidade do Vento: ${weatherData.velocidadeDoVento} m/s`;
                     await this.sendEmail(email, 'Boletim Climático', `Aqui está o seu boletim climático:\n\n${weatherInfo}`);
+             
                 }
             }
             console.log('Boletins climáticos enviados para todos os inscritos.');
