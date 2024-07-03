@@ -1,10 +1,11 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import  Inscricao  from '../../../../newsletter_service/src/dominio/entidades/Inscricao';
+import Inscricao from '../../../../newsletter_service/src/dominio/entidades/Inscricao';
 import OpenWeatherMapService from '../../../../weather_service/src/dominio/servicos/OpenWeatherMapService';
 import Localizacao from '../../../../weather_service/src/dominio/objetos_valor/Localizacao';
-import RepositorioDadosClimaticos from '../../../../weather_service/src/dominio/repositorios/RepositorioDadosClimaticos'; 
-import DadosClimaticos from '../../../../weather_service/src/dominio/entidades/DadosClimaticos'; 
+import RepositorioDadosClimaticos from '../../../../weather_service/src/dominio/repositorios/RepositorioDadosClimaticos';
+import DadosClimaticos from '../../../../weather_service/src/dominio/entidades/DadosClimaticos';
+import BoletimEnviado from '../../infraestrutura/banco_dados/BoletimEnviadoModel';
 
 dotenv.config();
 
@@ -33,9 +34,11 @@ class EmailService {
                 if (this.shouldSendEmail(frequencia)) {
                     const localizacao = new Localizacao(-23.5505, -46.6333);
                     const weatherData = await this.weatherService.consultarDadosClimaticos(localizacao);
-                    const weatherInfo = `Temperatura: ${weatherData.temperatura}°C, Umidade: ${weatherData.umidade}%, Velocidade do Vento: ${weatherData.velocidadeDoVento} m/s`;
+                    const weatherInfo = `Temperatura: ${weatherData.temperatura}°K, Umidade: ${weatherData.umidade}%, Velocidade do Vento: ${weatherData.velocidadeDoVento} m/s`;
                     await this.sendEmail(email, 'Boletim Climático', `Aqui está o seu boletim climático:\n\n${weatherInfo}`);
-             
+                    
+                    // Após enviar o e-mail, salvar na tabela BoletinsEnviados
+                    await BoletimEnviado.create({ email, dataEnvio: new Date() });
                 }
             }
             console.log('Boletins climáticos enviados para todos os inscritos.');
@@ -53,7 +56,9 @@ class EmailService {
                 subject,
                 text,
             });
+
             console.log(`Email enviado para ${to}`);
+
         } catch (error) {
             console.error(`Erro ao enviar email para ${to}:`, error);
             throw new Error('Erro ao enviar email.');
@@ -63,15 +68,15 @@ class EmailService {
     private shouldSendEmail(frequencia: string): boolean {
         const now = new Date();
         const dayOfWeek = now.getDay();
-        const dayOfMonth = now.getDate(); 
+        const dayOfMonth = now.getDate();
 
         switch (frequencia) {
             case 'semanalmente':
-                return dayOfWeek === 0; 
+                return dayOfWeek === 0; // Domingo
             case 'mensalmente':
-                return dayOfMonth === 1;
+                return dayOfMonth === 1; // Primeiro dia do mês
             case 'semestralmente':
-                return dayOfMonth === 1 && (now.getMonth() === 0 || now.getMonth() === 6); 
+                return dayOfMonth === 1 && (now.getMonth() === 0 || now.getMonth() === 6); // Janeiro ou Julho
             default:
                 return false;
         }
